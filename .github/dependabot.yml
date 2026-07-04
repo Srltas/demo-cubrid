@@ -1,0 +1,23 @@
+# [A안] Dependabot 서브모듈 SHA 자동 갱신
+#
+# .gitmodules 에 적힌 각 서브모듈의 추적 브랜치를 스케줄마다 확인해,
+# 부모에 기록된 gitlink SHA 와 다르면 갱신 PR을 자동으로 연다.
+#
+# - 리뷰어 자동 요청은 .github/CODEOWNERS 로 처리 (dependabot.yml 의 reviewers 필드는 2025-08 제거됨)
+# - PR 제목은 'Bump <sub> from <a> to <b>' 형식으로 고정 — [PROJ-번호] 형식으로는 만들 수 없음
+#   (그래서 pr-style 필수 체크에서 막히며, 봇 예외가 필요함 → pr-style.yml 참고)
+#
+# 시연 팁: 스케줄을 기다리지 말고 GitHub UI 에서 수동 트리거
+#   Insights → Dependency graph → Dependabot → "Check for updates"
+
+version: 2
+updates:
+  - package-ecosystem: "gitsubmodule"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "07:00"
+      timezone: "Asia/Seoul"
+    open-pull-requests-limit: 10
+    labels:
+      - "Submodule Auto Update"

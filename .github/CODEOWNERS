@@ -1,0 +1,13 @@
+# [A안] 서브모듈 경로 담당자 → PR이 열리면 GitHub가 자동으로 리뷰 요청
+#
+# - 봇/App 이 작성한 PR 에도 동작한다 (Dependabot PR 에 자동 리뷰 요청됨).
+# - 경로를 여기 추가하는 것만으로는 "승인 필수"가 되지 않는다.
+#   branch protection 의 'Require review from Code Owners' 를 켜야 코드오너 승인이 강제된다.
+#   (데모에서는 꺼 둔 채로, '자동 리뷰 요청' 효과만 사용)
+#
+# 주의 1: 담당자는 PR 작성자가 될 수 없다. Dependabot PR 은 작성자가 dependabot[bot] 이라 아래 지정이 유효하다.
+# 주의 2: 서브모듈 SHA 만 바뀌는 bump 에서 변경 경로는 gitlink 항목 'demo-jdbc' 다(트레일링 슬래시 없이 매칭).
+#         '.gitmodules' 는 branch/url 이 바뀔 때만 변경되지만, 안전하게 함께 등록해 둔다.
+
+/demo-jdbc     @Srltas
+/.gitmodules   @Srltas

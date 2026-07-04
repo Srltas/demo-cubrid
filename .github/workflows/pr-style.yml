@@ -1,0 +1,28 @@
+# [공용] PR 제목 규칙 검사 — 실제 CUBRID/cubrid check.yml 의 pr-style job 을 그대로 복제
+#
+# 제목이 [PROJ-번호] 로 시작하지 않으면 실패한다. (정규식은 실제 cubrid 와 동일)
+# 이 체크를 branch protection 의 '필수 체크'로 등록하면, 실패 시 머지 버튼이 막힌다.
+#
+# ── 데모 토글 (봇 예외 시연) ─────────────────────────────────────────────
+# 저장소 변수 SKIP_PRSTYLE_FOR_BOT 로 제어한다 (Settings → Variables → Actions):
+#   • 미설정/false → dependabot PR 에서도 pr-style 이 돌아 '빨간불'  (문제 재현)
+#   • true         → dependabot PR 에서는 job 이 skip → '성공'으로 처리   (예외 적용)
+# job-level 로 skip 된 필수 체크는 GitHub 가 Success 로 간주하므로 머지가 풀린다.
+# (변수만 바꾸고 실패한 체크를 Re-run 하면 됨 — 커밋 불필요)
+# ────────────────────────────────────────────────────────────────────────
+
+name: github-checks
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  pr-style:
+    name: pr-style
+    if: ${{ !(github.actor == 'dependabot[bot]' && vars.SKIP_PRSTYLE_FOR_BOT == 'true') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: deepakputhraya/action-pr-title@master
+        with:
+          regex: '^\[[A-Z]+-\d+\]\s.+'   # 예: [DEMO-123] ...
