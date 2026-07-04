@@ -1,0 +1,4 @@
+[submodule "demo-jdbc"]
+	path = demo-jdbc
+	url = https://github.com/Srltas/demo-jdbc.git
+	branch = main
